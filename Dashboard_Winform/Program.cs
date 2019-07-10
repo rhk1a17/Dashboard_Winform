@@ -10,6 +10,7 @@ using System.Threading;
 using Modbus.Device;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Diagnostics;
 
 namespace Dashboard_Winform
 {
@@ -160,6 +161,19 @@ namespace Dashboard_Winform
                             const string DATE_TIME_PATTERN = "HH:mm:ss";
                             const string FILE_NAME_DATE_PATTERN = "yyyyMMdd";
                             DateTime timeNow = DateTime.Now;
+                            Debug.WriteLine(timeNow.ToShortTimeString());
+
+                            try
+                            {
+                                if (timeNow.ToShortTimeString() == "00:00 AM")
+                                {
+                                    Thread.Sleep(1000);
+                                }
+                            }
+                            catch
+                            {
+                                Debug.WriteLine("");
+                            }
 
                             string filePath;
                             string filePath_1;
