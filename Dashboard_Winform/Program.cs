@@ -167,7 +167,7 @@ namespace Dashboard_Winform
                             {
                                 if (timeNow.ToShortTimeString() == "00:00 AM")
                                 {
-                                    Thread.Sleep(1000);
+                                    Thread.Sleep(60000);
                                 }
                             }
                             catch
