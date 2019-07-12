@@ -161,7 +161,6 @@ namespace Dashboard_Winform
                             const string DATE_TIME_PATTERN = "HH:mm:ss";
                             const string FILE_NAME_DATE_PATTERN = "yyyyMMdd";
                             DateTime timeNow = DateTime.Now;
-                            Debug.WriteLine(timeNow.ToShortTimeString());
 
                             try
                             {
@@ -359,7 +358,7 @@ namespace Dashboard_Winform
             string[] lineList = line.Split(','); // splitting commas in 'line'
 
             //assigning variable for each element in 'line'
-            SqlDateTime date = Convert.ToDateTime(lineList[0]);
+            string date = Convert.ToDateTime(lineList[0]).ToString("yyyy/MM/dd HH:mm:ss");
             int serial = Convert.ToInt32(lineList[1]);
             int mppts = Convert.ToInt32(lineList[2]);
             double DC_c1 = Convert.ToDouble(lineList[3]);
@@ -375,7 +374,7 @@ namespace Dashboard_Winform
 
             //formatting strings to meet sql query syntax requirement
             string sendQuery = String.Format(
-                "INSERT INTO INVERTER_TABLE (_datetime, Serial, MPPTs, DC_c1, DC_v1, DC_p1, DC_c2, DC_v2, DC_p2, total_yield, current_yield, daily_yield, condition) " +
+                "INSERT INTO INVERTER_DATA (_datetime, Serial, MPPTs, DC_c1, DC_v1, DC_p1, DC_c2, DC_v2, DC_p2, total_yield, current_yield, daily_yield, condition) " +
                 "VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12});"
                 , ("'" + date + "'"), serial, mppts, DC_c1, DC_v1, DC_p1, DC_c2, DC_v2, DC_p2, total_yield, current_yield, daily_yield, condition);
 
