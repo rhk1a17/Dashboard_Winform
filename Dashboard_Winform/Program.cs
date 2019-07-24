@@ -134,6 +134,9 @@ namespace Dashboard_Winform
                     {
                         try
                         {
+                            //CURRENT TIME
+                            string currentTime = DateTime.Now.ToString();
+
                             //Communicate with inverter
                             Console.WriteLine("\nConnecting to " + ipInfo.IP_Address);
                             IAsyncResult ar = client.BeginConnect(ipInfo.IP_Address, ipInfo.IP_Port, null, null);
@@ -143,7 +146,7 @@ namespace Dashboard_Winform
                                 if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(ipTimeout), false))
                                 {
                                     client.Close();
-                                    throw new TimeoutException("Could not connect to " + ipInfo.IP_Address);
+                                    throw new TimeoutException(currentTime + "Could not connect to " + ipInfo.IP_Address);
                                 }
                             }
                             finally
@@ -159,7 +162,6 @@ namespace Dashboard_Winform
                             //******************************************2 MPPTS****************************************************************
                             //Get local time from computer.
                             const string DATE_TIME_PATTERN = "HH:mm:ss";
-                            const string FILE_NAME_DATE_PATTERN = "yyyyMMdd";
                             DateTime timeNow = DateTime.Now;
 
                             try
@@ -173,11 +175,6 @@ namespace Dashboard_Winform
                             {
                                 Debug.WriteLine("");
                             }
-
-                            string filePath;
-                            string filePath_1;
-                            filePath = historyDir + "\\SMA-" + timeNow.ToString(FILE_NAME_DATE_PATTERN) + ".txt";
-                            filePath_1 = historyDir + "\\SMA-" + timeNow.ToString(FILE_NAME_DATE_PATTERN) + ".csv";
 
                             string dtComputer = timeNow.ToString(DATE_TIME_PATTERN);
                             line += dtComputer;
@@ -317,8 +314,6 @@ namespace Dashboard_Winform
                             line += condition + ",";
 
                             line += "\n";
-                            File.AppendAllText(filePath, line);
-                            File.AppendAllText(filePath_1, line);
                             Console.WriteLine(line);
                             ConnectionString(line);
                             
