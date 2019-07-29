@@ -135,7 +135,7 @@ namespace Dashboard_Winform
                         try
                         {
                             //CURRENT TIME
-                            string currentTime = DateTime.Now.ToString();
+                            string currentTime = DateTime.Now.ToShortTimeString();
 
                             //Communicate with inverter
                             Console.WriteLine("\nConnecting to " + ipInfo.IP_Address);
@@ -145,14 +145,18 @@ namespace Dashboard_Winform
                             {
                                 if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(ipTimeout), false))
                                 {
-                                    client.Close();
+                                    //client.Close();
                                     throw new TimeoutException(currentTime + "Could not connect to " + ipInfo.IP_Address);
                                 }
                             }
-                            finally
+                            catch(Exception ex)
                             {
-                                wh.Close();
+                                Console.WriteLine(ex.ToString());
                             }
+                            //finally
+                            //{
+                            //    wh.Close();
+                            //}
 
                             ModbusIpMaster master = ModbusIpMaster.CreateIp(client);
                             string line = string.Empty;
