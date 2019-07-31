@@ -69,7 +69,7 @@ namespace Dashboard_Winform
         const int DEFAULT_IP_PORT = 502;
         const int DEFAULT_UNIT_ID = 3;
         const int DEFAULT_MPPT_COUNT = 2;
-        const int DEFAULT_IP_TIMEOUT_SECONDS = 5;
+        const int DEFAULT_IP_TIMEOUT_SECONDS = 30;
         const string DEFAULT_HISTORY_DIRECTORY_PATH = @".\HistoryFiles";
 
         public static void ModbusTcpMasterReadRegisters_SMA_MPPTs()
@@ -145,7 +145,7 @@ namespace Dashboard_Winform
                             {
                                 if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(ipTimeout), false))
                                 {
-                                    //client.Close();
+                                    client.Close();
                                     throw new TimeoutException(currentTime + "Could not connect to " + ipInfo.IP_Address);
                                 }
                             }
@@ -386,6 +386,7 @@ namespace Dashboard_Winform
                 {
                     sqlconn.Open();
                     sqlCommand.ExecuteNonQuery();
+                    Console.WriteLine("==================================Uploaded to SQL====================================");
                 }
                 catch (SqlException ex)
                 {
